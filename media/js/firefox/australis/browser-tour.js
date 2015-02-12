@@ -70,6 +70,9 @@ if (typeof Mozilla == 'undefined') {
         this.$cta = $('.cta');
         this.$inTourLinks = this.$tourList.find('a.more');
 
+        // quick ref elem for door-hanger icons
+        this.$iconElem = $('.tour-init');
+
         // bind UITour event listeners
         this.bindEvents();
 
@@ -572,7 +575,7 @@ if (typeof Mozilla == 'undefined') {
      */
     BrowserTour.prototype.promptAddHelloButton = function () {
         var $dataElm = $('.hello-prompt-door-hanger');
-        var icon = Mozilla.ImageHelper.isHighDpi() ? $dataElm.data('iconHighRes') : $dataElm.data('icon');
+        var icon = Mozilla.ImageHelper.isHighDpi() ? this.$iconElem.data('iconHighRes') : this.$iconElem.data('icon');
 
         var buttons = [
             {
@@ -620,11 +623,11 @@ if (typeof Mozilla == 'undefined') {
      */
     BrowserTour.prototype.highlightHelloButton = function () {
         var $dataElm = $('.hello-added-door-hanger');
+        var icon = Mozilla.ImageHelper.isHighDpi() ? this.$iconElem.data('iconHighRes') : this.$iconElem.data('icon');
         var target = 'loop';
 
         Mozilla.UITour.showHighlight(target, 'wobble');
 
-        var icon = null;
         var buttons = [];
 
         var options = {
@@ -646,8 +649,8 @@ if (typeof Mozilla == 'undefined') {
      */
     BrowserTour.prototype.laterHelloButton = function () {
         var $dataElm = $('.hello-later-door-hanger');
+        var icon = Mozilla.ImageHelper.isHighDpi() ? this.$iconElem.data('iconHighRes') : this.$iconElem.data('icon');
 
-        var icon = '';
         var buttons = [];
 
         var options = {
@@ -663,6 +666,8 @@ if (typeof Mozilla == 'undefined') {
             buttons,
             options
         );
+
+        gaTrack(['_trackEvent', 'Tour Interaction', 'Later', 'The Hello icon']);
     };
 
     /*
@@ -670,6 +675,7 @@ if (typeof Mozilla == 'undefined') {
      */
     BrowserTour.prototype.reminderHelloButton = function () {
         var $dataElm = $('.hello-reminder-door-hanger');
+        var icon = Mozilla.ImageHelper.isHighDpi() ? this.$iconElem.data('iconHighRes') : this.$iconElem.data('icon');
         var target = 'loop';
         var that = this;
 
@@ -690,7 +696,7 @@ if (typeof Mozilla == 'undefined') {
                         target,
                         that.getText($dataElm.data('title')),
                         that.getText($dataElm.data('text')),
-                        null,
+                        icon,
                         buttons,
                         options
                     );
